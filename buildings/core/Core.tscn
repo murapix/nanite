@@ -1,0 +1,42 @@
+[gd_scene load_steps=8 format=3 uid="uid://bi2wvimqcyfxj"]
+
+[ext_resource type="Script" uid="uid://qoo5lw083dwu" path="res://buildings/Building.gd" id="1_26tvf"]
+[ext_resource type="Texture2D" uid="uid://doblc4g52744v" path="res://buildings/core/input-background.svg" id="3_g1bwe"]
+[ext_resource type="Texture2D" uid="uid://cfiak4d7x6lhl" path="res://buildings/core/input-border.svg" id="4_p763s"]
+[ext_resource type="Texture2D" uid="uid://del0q5t1myctk" path="res://buildings/core/input-fill.svg" id="5_buwdm"]
+[ext_resource type="Texture2D" uid="uid://dokstphdrebr3" path="res://buildings/core/output-border.svg" id="6_4uo3v"]
+[ext_resource type="Texture2D" uid="uid://cx8u6n78rfdwd" path="res://buildings/core/output-fill.svg" id="7_10yut"]
+[ext_resource type="Texture2D" uid="uid://5o0qa6ao73sj" path="res://buildings/core/output-background.svg" id="7_buwdm"]
+
+[node name="Core" type="Node2D"]
+scale = Vector2(0.25, 0.25)
+script = ExtResource("1_26tvf")
+
+[node name="Crafter" type="Node2D" parent="."]
+
+[node name="Inputs" type="Node2D" parent="Crafter"]
+
+[node name="InputBackground" type="Sprite2D" parent="Crafter/Inputs"]
+texture = ExtResource("3_g1bwe")
+
+[node name="InputFill" type="Sprite2D" parent="Crafter/Inputs"]
+texture = ExtResource("5_buwdm")
+region_enabled = true
+region_rect = Rect2(73, 73, 254, 254)
+
+[node name="InputBorder" type="Sprite2D" parent="Crafter/Inputs"]
+texture = ExtResource("4_p763s")
+
+[node name="Outputs" type="Node2D" parent="Crafter"]
+
+[node name="OutputBackground" type="Sprite2D" parent="Crafter/Outputs"]
+texture = ExtResource("7_buwdm")
+
+[node name="OutputFill" type="Sprite2D" parent="Crafter/Outputs"]
+texture = ExtResource("7_10yut")
+region_enabled = true
+region_rect = Rect2(133, 133, 134, 134)
+
+[node name="OutputBorder" type="Sprite2D" parent="Crafter/Outputs"]
+z_index = 1
+texture = ExtResource("6_4uo3v")

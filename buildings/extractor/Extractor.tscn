@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://wn5jr0o28hn3"]
+
+[ext_resource type="Script" uid="uid://qoo5lw083dwu" path="res://buildings/Building.gd" id="1_17no1"]
+[ext_resource type="Script" uid="uid://bnlamwidsat08" path="res://buildings/ResourceStore.gd" id="2_a3imr"]
+
+[node name="Extractor" type="Node2D"]
+script = ExtResource("1_17no1")
+id = 1
+
+[node name="ResourceStore" type="Node" parent="." node_paths=PackedStringArray("fillImage")]
+script = ExtResource("2_a3imr")
+isOutput = true
+fillImage = NodePath("Fill")
+metadata/_custom_type_script = "uid://bnlamwidsat08"
+
+[node name="Background" type="Sprite2D" parent="ResourceStore"]
+
+[node name="Fill" type="Sprite2D" parent="ResourceStore"]
+
+[node name="Border" type="Sprite2D" parent="ResourceStore"]

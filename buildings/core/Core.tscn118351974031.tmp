@@ -1,0 +1,67 @@
+[gd_scene load_steps=10 format=3 uid="uid://bi2wvimqcyfxj"]
+
+[ext_resource type="Script" uid="uid://qoo5lw083dwu" path="res://buildings/Building.gd" id="1_26tvf"]
+[ext_resource type="Script" uid="uid://dciuqq3ob5g44" path="res://buildings/Crafter.gd" id="2_chqwn"]
+[ext_resource type="Texture2D" uid="uid://doblc4g52744v" path="res://buildings/core/input-background.svg" id="3_g1bwe"]
+[ext_resource type="Script" uid="uid://bnlamwidsat08" path="res://buildings/ResourceStore.gd" id="3_p763s"]
+[ext_resource type="Texture2D" uid="uid://cfiak4d7x6lhl" path="res://buildings/core/input-border.svg" id="4_p763s"]
+[ext_resource type="Texture2D" uid="uid://del0q5t1myctk" path="res://buildings/core/input-fill.svg" id="5_buwdm"]
+[ext_resource type="Texture2D" uid="uid://dokstphdrebr3" path="res://buildings/core/output-border.svg" id="6_4uo3v"]
+[ext_resource type="Texture2D" uid="uid://cx8u6n78rfdwd" path="res://buildings/core/output-fill.svg" id="7_10yut"]
+[ext_resource type="Texture2D" uid="uid://5o0qa6ao73sj" path="res://buildings/core/output-background.svg" id="7_buwdm"]
+
+[node name="Core" type="Node2D"]
+script = ExtResource("1_26tvf")
+
+[node name="Crafter" type="Node" parent="." node_paths=PackedStringArray("building", "inputs", "outputs")]
+script = ExtResource("2_chqwn")
+building = NodePath("..")
+inputs = NodePath("Inputs")
+outputs = NodePath("Outputs")
+metadata/_custom_type_script = "uid://dciuqq3ob5g44"
+
+[node name="Inputs" type="Node" parent="Crafter" node_paths=PackedStringArray("fillImage")]
+script = ExtResource("3_p763s")
+limits = Dictionary[int, int]({
+0: 1
+})
+resources = Dictionary[int, float]({
+0: 0.8
+})
+fillImage = NodePath("InputFill")
+metadata/_custom_type_script = "uid://bnlamwidsat08"
+
+[node name="InputBackground" type="Sprite2D" parent="Crafter/Inputs"]
+texture = ExtResource("3_g1bwe")
+
+[node name="InputFill" type="Sprite2D" parent="Crafter/Inputs"]
+texture = ExtResource("5_buwdm")
+region_enabled = true
+region_rect = Rect2(27, 27, 346, 346)
+
+[node name="InputBorder" type="Sprite2D" parent="Crafter/Inputs"]
+texture = ExtResource("4_p763s")
+
+[node name="Outputs" type="Node" parent="Crafter" node_paths=PackedStringArray("fillImage")]
+script = ExtResource("3_p763s")
+isOutput = true
+limits = Dictionary[int, int]({
+1: 100
+})
+resources = Dictionary[int, float]({
+1: 25.0
+})
+fillImage = NodePath("OutputFill")
+metadata/_custom_type_script = "uid://bnlamwidsat08"
+
+[node name="OutputBackground" type="Sprite2D" parent="Crafter/Outputs"]
+texture = ExtResource("7_buwdm")
+
+[node name="OutputFill" type="Sprite2D" parent="Crafter/Outputs"]
+texture = ExtResource("7_10yut")
+region_enabled = true
+region_rect = Rect2(109, 109, 182, 182)
+
+[node name="OutputBorder" type="Sprite2D" parent="Crafter/Outputs"]
+z_index = 1
+texture = ExtResource("6_4uo3v")

@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://cjlmlfvidhqhk"]
+
+[node name="Analyzer" type="Node2D"]
