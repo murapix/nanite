@@ -1,42 +1,88 @@
-[gd_scene load_steps=8 format=3 uid="uid://bi2wvimqcyfxj"]
+[gd_scene load_steps=12 format=3 uid="uid://bi2wvimqcyfxj"]
 
 [ext_resource type="Script" uid="uid://qoo5lw083dwu" path="res://buildings/Building.gd" id="1_26tvf"]
+[ext_resource type="Script" uid="uid://dciuqq3ob5g44" path="res://buildings/Crafter.gd" id="2_chqwn"]
 [ext_resource type="Texture2D" uid="uid://doblc4g52744v" path="res://buildings/core/input-background.svg" id="3_g1bwe"]
+[ext_resource type="Script" uid="uid://bnlamwidsat08" path="res://buildings/ResourceStore.gd" id="3_p763s"]
 [ext_resource type="Texture2D" uid="uid://cfiak4d7x6lhl" path="res://buildings/core/input-border.svg" id="4_p763s"]
 [ext_resource type="Texture2D" uid="uid://del0q5t1myctk" path="res://buildings/core/input-fill.svg" id="5_buwdm"]
 [ext_resource type="Texture2D" uid="uid://dokstphdrebr3" path="res://buildings/core/output-border.svg" id="6_4uo3v"]
+[ext_resource type="Script" uid="uid://otu8u1t3op7c" path="res://buildings/ProgressBarHandler.gd" id="7_4uo3v"]
 [ext_resource type="Texture2D" uid="uid://cx8u6n78rfdwd" path="res://buildings/core/output-fill.svg" id="7_10yut"]
 [ext_resource type="Texture2D" uid="uid://5o0qa6ao73sj" path="res://buildings/core/output-background.svg" id="7_buwdm"]
+[ext_resource type="Texture2D" uid="uid://bcg3ndkv8gay6" path="res://buildings/core/craft-bar.svg" id="11_10yut"]
 
-[node name="Core" type="Node2D"]
+[node name="Core" type="Node2D" node_paths=PackedStringArray("buildDisplay", "runDisplay")]
 scale = Vector2(0.25, 0.25)
 script = ExtResource("1_26tvf")
+buildDisplay = NodePath("Dummy Build Node")
+runDisplay = NodePath("Crafter")
 
-[node name="Crafter" type="Node2D" parent="."]
+[node name="Crafter" type="Node2D" parent="." node_paths=PackedStringArray("building", "inputs", "outputs")]
+script = ExtResource("2_chqwn")
+building = NodePath("..")
+inputs = NodePath("Inputs")
+outputs = NodePath("Outputs")
 
-[node name="Inputs" type="Node2D" parent="Crafter"]
+[node name="Craft Progress Bar" type="TextureProgressBar" parent="Crafter"]
+offset_left = -200.0
+offset_top = -200.0
+offset_right = 200.0
+offset_bottom = 200.0
+max_value = 1.0
+step = 0.0
+fill_mode = 5
+radial_initial_angle = 180.0
+texture_progress = ExtResource("11_10yut")
+tint_progress = Color(0.94902, 0.94902, 0.94902, 1)
+script = ExtResource("7_4uo3v")
+fillBarEnd = 1.0
 
-[node name="InputBackground" type="Sprite2D" parent="Crafter/Inputs"]
-texture = ExtResource("3_g1bwe")
+[node name="Inputs" type="Node2D" parent="Crafter" node_paths=PackedStringArray("fillBar")]
+script = ExtResource("3_p763s")
+fillBar = NodePath("Input Fill Bar")
 
-[node name="InputFill" type="Sprite2D" parent="Crafter/Inputs"]
-texture = ExtResource("5_buwdm")
-region_enabled = true
-region_rect = Rect2(73, 73, 254, 254)
+[node name="Input Fill Bar" type="TextureProgressBar" parent="Crafter/Inputs"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+max_value = 1.0
+step = 0.0
+fill_mode = 3
+texture_under = ExtResource("3_g1bwe")
+texture_over = ExtResource("4_p763s")
+texture_progress = ExtResource("5_buwdm")
+tint_under = Color(0.152941, 0.152941, 0.152941, 1)
+tint_over = Color(0.0745098, 0.631373, 0.054902, 1)
+tint_progress = Color(0.0627451, 0.341176, 0.0509804, 1)
+script = ExtResource("7_4uo3v")
+fillBarStart = 0.19
+fillBarEnd = 0.81
 
-[node name="InputBorder" type="Sprite2D" parent="Crafter/Inputs"]
-texture = ExtResource("4_p763s")
+[node name="Outputs" type="Node2D" parent="Crafter" node_paths=PackedStringArray("fillBar")]
+script = ExtResource("3_p763s")
+isOutput = true
+fillBar = NodePath("Output Fill Bar")
 
-[node name="Outputs" type="Node2D" parent="Crafter"]
+[node name="Output Fill Bar" type="TextureProgressBar" parent="Crafter/Outputs"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+max_value = 1.0
+step = 0.0
+fill_mode = 3
+texture_under = ExtResource("7_buwdm")
+texture_over = ExtResource("6_4uo3v")
+texture_progress = ExtResource("7_10yut")
+tint_under = Color(0.152941, 0.152941, 0.152941, 1)
+tint_over = Color(0.0745098, 0.631373, 0.054902, 1)
+tint_progress = Color(0.0627451, 0.341176, 0.0509804, 1)
+script = ExtResource("7_4uo3v")
+fillBarStart = 0.34
+fillBarEnd = 0.66
 
-[node name="OutputBackground" type="Sprite2D" parent="Crafter/Outputs"]
-texture = ExtResource("7_buwdm")
-
-[node name="OutputFill" type="Sprite2D" parent="Crafter/Outputs"]
-texture = ExtResource("7_10yut")
-region_enabled = true
-region_rect = Rect2(133, 133, 134, 134)
-
-[node name="OutputBorder" type="Sprite2D" parent="Crafter/Outputs"]
-z_index = 1
-texture = ExtResource("6_4uo3v")
+[node name="Dummy Build Node" type="Node2D" parent="."]

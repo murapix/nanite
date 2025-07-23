@@ -1,3 +1,7 @@
-[gd_scene format=3 uid="uid://bh2igdgkspxoy"]
+[gd_scene load_steps=2 format=3 uid="uid://bh2igdgkspxoy"]
+
+[ext_resource type="Script" uid="uid://qoo5lw083dwu" path="res://buildings/Building.gd" id="1_ncxan"]
 
 [node name="Bore" type="Node2D"]
+script = ExtResource("1_ncxan")
+id = 6

@@ -1,3 +1,40 @@
-[gd_scene format=3 uid="uid://d4eyg2gjiti5b"]
+[gd_scene load_steps=5 format=3 uid="uid://d4eyg2gjiti5b"]
 
-[node name="Router" type="Node2D"]
+[ext_resource type="Script" uid="uid://qoo5lw083dwu" path="res://buildings/Building.gd" id="1_tt08p"]
+[ext_resource type="Texture2D" uid="uid://dlleqeyxt6i4a" path="res://buildings/router/background.svg" id="2_e8po3"]
+[ext_resource type="Texture2D" uid="uid://dr73kht5i7cti" path="res://buildings/router/border.svg" id="3_77ldl"]
+[ext_resource type="Script" uid="uid://otu8u1t3op7c" path="res://buildings/ProgressBarHandler.gd" id="4_e8po3"]
+
+[node name="Router" type="Node2D" node_paths=PackedStringArray("buildDisplay", "buildProgressBar", "runDisplay")]
+script = ExtResource("1_tt08p")
+id = 2
+buildDisplay = NodePath("BuildDisplayBar")
+buildProgressBar = NodePath("BuildDisplayBar")
+runDisplay = NodePath("RunDisplay")
+
+[node name="BuildDisplayBar" type="TextureProgressBar" parent="."]
+offset_left = -200.0
+offset_top = -200.0
+offset_right = 200.0
+offset_bottom = 200.0
+max_value = 1.0
+step = 0.0
+fill_mode = 5
+radial_initial_angle = 180.0
+texture_under = ExtResource("2_e8po3")
+texture_progress = ExtResource("3_77ldl")
+tint_under = Color(0.152941, 0.152941, 0.152941, 1)
+tint_progress = Color(0.0745098, 0.631373, 0.054902, 1)
+script = ExtResource("4_e8po3")
+fillBarEnd = 1.0
+
+[node name="RunDisplay" type="Node2D" parent="."]
+visible = false
+
+[node name="Background" type="Sprite2D" parent="RunDisplay"]
+self_modulate = Color(0.152941, 0.152941, 0.152941, 1)
+texture = ExtResource("2_e8po3")
+
+[node name="Border" type="Sprite2D" parent="RunDisplay"]
+self_modulate = Color(0.0745098, 0.631373, 0.054902, 1)
+texture = ExtResource("3_77ldl")

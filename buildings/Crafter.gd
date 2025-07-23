@@ -6,22 +6,25 @@
 	set(value): inputs = value; update_configuration_warnings();
 @export var outputs: ResourceStore:
 	set(value): outputs = value; update_configuration_warnings();
+@export var progressBar: ProgressBarHandler;
 
 var recipeIDs: Array[RecipeData.recipeID];
+var selectedRecipe: RecipeData.BaseRecipe;
 var inputSizeMulti: int;
 var outputSizeMulti: int;
 var selectedRecipeID: int = 0:
 	set(value):
 		selectedRecipeID = value;
-		var recipeData = RecipeData.recipes[self.recipeIDs[value]];
-		for resource in recipeData.inputs:
-			inputs.limits[resource] = recipeData.inputs[resource] * inputSizeMulti;
-		for resource in recipeData.outputs:
-			outputs.limits[resource] = recipeData.outputs[resource] * outputSizeMulti;
+		selectedRecipe = RecipeData.recipes[self.recipeIDs[value]];
+		for resource in selectedRecipe.inputs:
+			inputs.limits[resource] = selectedRecipe.inputs[resource] * inputSizeMulti;
+		for resource in selectedRecipe.outputs:
+			outputs.limits[resource] = selectedRecipe.outputs[resource] * outputSizeMulti;
 
 var remainingCraftTime = 0;
 
 func canCraft() -> bool:
+	if building == null: return false;
 	if 'built' not in building: return false;
 	if building.built: return false;
 	if selectedRecipeID < 0: return false;
@@ -29,7 +32,6 @@ func canCraft() -> bool:
 	
 	if remainingCraftTime > 0: return true;
 	
-	var selectedRecipe = recipeIDs[selectedRecipeID];
 	for resource in selectedRecipe.outputs:
 		if outputs.resources.get_or_add(resource, 0) + selectedRecipe.outputs[resource] > outputs.limits.get_or_add(resource, 0):
 			return false;
@@ -42,7 +44,6 @@ func canCraft() -> bool:
 func tryCraft(delta) -> void:
 	if remainingCraftTime <= 0:
 		if canCraft():
-			var selectedRecipe = recipeIDs[selectedRecipeID];
 			remainingCraftTime = selectedRecipe.duration;
 			for resource in selectedRecipe.inputs:
 				inputs.resources[resource] -= selectedRecipe.inputs[resource];
@@ -51,9 +52,10 @@ func tryCraft(delta) -> void:
 	remainingCraftTime -= delta;
 	if remainingCraftTime <= 0:
 		remainingCraftTime = 0;
-		var selectedRecipe = recipeIDs[selectedRecipeID];
+		progressBar.setFillPercentage(remainingCraftTime / selectedRecipe.duration, true);
 		for resource in selectedRecipe.outputs:
 			outputs.resources[resource] += selectedRecipe.outputs[resource];
+	else: progressBar.setFillPercentage(0);
 
 func _process(delta: float) -> void:
 	tryCraft(delta);

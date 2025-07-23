@@ -1,3 +1,290 @@
-[gd_scene format=3 uid="uid://dcljwpx6pxxga"]
+[gd_scene load_steps=13 format=3 uid="uid://dcljwpx6pxxga"]
 
-[node name="Researcher" type="Node2D"]
+[ext_resource type="Script" uid="uid://qoo5lw083dwu" path="res://buildings/Building.gd" id="1_ttnpd"]
+[ext_resource type="Script" uid="uid://bnlamwidsat08" path="res://buildings/ResourceStore.gd" id="2_cvnvr"]
+[ext_resource type="Script" uid="uid://34b3in0srgcl" path="res://buildings/researcher/Research Handler.gd" id="3_ywuh1"]
+[ext_resource type="Script" uid="uid://otu8u1t3op7c" path="res://buildings/ProgressBarHandler.gd" id="4_ywuh1"]
+[ext_resource type="Texture2D" uid="uid://drvvd8urw8703" path="res://buildings/researcher/circle-background.svg" id="5_aiw76"]
+[ext_resource type="Texture2D" uid="uid://6wpdmre00l0e" path="res://buildings/researcher/circle-border.svg" id="6_ophqm"]
+[ext_resource type="Texture2D" uid="uid://raqnqryx0oga" path="res://buildings/researcher/center-background.svg" id="7_ateyp"]
+[ext_resource type="Texture2D" uid="uid://b3ehjcby0ryp7" path="res://buildings/researcher/center-border.svg" id="8_bm5fv"]
+
+[sub_resource type="Animation" id="Animation_ns3w2"]
+resource_name = "Researching"
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Run Display/Top Left:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.152941, 0.152941, 0.152941, 1), Color(0.94902, 0.94902, 0.94902, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Run Display/Top Right:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.25, 0.75),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.152941, 0.152941, 0.152941, 1), Color(0.94902, 0.94902, 0.94902, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Run Display/Bottom Left:self_modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.94902, 0.94902, 0.94902, 1), Color(0.152941, 0.152941, 0.152941, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Run Display/Bottom Right:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.25, 0.75),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.94902, 0.94902, 0.94902, 1), Color(0.152941, 0.152941, 0.152941, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_gpw2y"]
+resource_name = "Idle"
+step = 1.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Run Display/Top Left:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.174377, 0.174377, 0.174377, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Run Display/Top Right:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.152941, 0.152941, 0.152941, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Run Display/Bottom Left:self_modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.152941, 0.152941, 0.152941, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Run Display/Bottom Right:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.152941, 0.152941, 0.152941, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_aiw76"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Run Display/Top Left:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.174377, 0.174377, 0.174377, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Run Display/Top Right:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Run Display/Bottom Left:self_modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Run Display/Bottom Right:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gye3v"]
+_data = {
+&"Idle": SubResource("Animation_gpw2y"),
+&"RESET": SubResource("Animation_aiw76"),
+&"Researching": SubResource("Animation_ns3w2")
+}
+
+[node name="Researcher" type="Node2D" node_paths=PackedStringArray("buildDisplay", "buildProgressBar", "runDisplay")]
+script = ExtResource("1_ttnpd")
+id = 5
+buildDisplay = NodePath("Build Display")
+buildProgressBar = NodePath("Build Display/Build Progress Bar")
+runDisplay = NodePath("Run Display")
+
+[node name="ResourceStore" type="Node" parent="."]
+script = ExtResource("2_cvnvr")
+limits = Dictionary[int, int]({
+4: 100,
+5: 100,
+6: 100,
+7: 100,
+8: 100
+})
+metadata/_custom_type_script = "uid://bnlamwidsat08"
+
+[node name="Research Handler" type="Node" parent="." node_paths=PackedStringArray("researchStore", "animator")]
+script = ExtResource("3_ywuh1")
+researchStore = NodePath("../ResourceStore")
+animator = NodePath("AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Research Handler"]
+root_node = NodePath("../..")
+libraries = {
+&"": SubResource("AnimationLibrary_gye3v")
+}
+blend_times = [&"Idle", &"Researching", 0.5, &"Researching", &"Idle", 0.5, &"Researching", &"Researching", 0.5]
+
+[node name="Build Display" type="Node2D" parent="."]
+visible = false
+
+[node name="Top Left" type="Sprite2D" parent="Build Display"]
+self_modulate = Color(0.152941, 0.152941, 0.152941, 1)
+position = Vector2(-50, -50)
+texture = ExtResource("5_aiw76")
+
+[node name="Top Right" type="Sprite2D" parent="Build Display"]
+self_modulate = Color(0.152941, 0.152941, 0.152941, 1)
+position = Vector2(50, -50)
+texture = ExtResource("5_aiw76")
+
+[node name="Bottom Left" type="Sprite2D" parent="Build Display"]
+self_modulate = Color(0.152941, 0.152941, 0.152941, 1)
+position = Vector2(-50, 50)
+texture = ExtResource("5_aiw76")
+
+[node name="Bottom Right" type="Sprite2D" parent="Build Display"]
+self_modulate = Color(0.152941, 0.152941, 0.152941, 1)
+position = Vector2(50, 50)
+texture = ExtResource("5_aiw76")
+
+[node name="Build Progress Bar" type="TextureProgressBar" parent="Build Display"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+max_value = 1.0
+step = 0.0
+fill_mode = 5
+radial_initial_angle = 180.0
+texture_under = ExtResource("7_ateyp")
+texture_progress = ExtResource("8_bm5fv")
+tint_under = Color(0.152941, 0.152941, 0.152941, 1)
+tint_progress = Color(0.0745098, 0.631373, 0.054902, 1)
+script = ExtResource("4_ywuh1")
+fillBarEnd = 1.0
+metadata/_custom_type_script = "uid://otu8u1t3op7c"
+
+[node name="Run Display" type="Node2D" parent="."]
+
+[node name="Top Left" type="Sprite2D" parent="Run Display"]
+self_modulate = Color(0.174377, 0.174377, 0.174377, 1)
+position = Vector2(-50, -50)
+texture = ExtResource("5_aiw76")
+
+[node name="Top Left Border" type="Sprite2D" parent="Run Display/Top Left"]
+self_modulate = Color(0.0745098, 0.631373, 0.054902, 1)
+texture = ExtResource("6_ophqm")
+
+[node name="Top Right" type="Sprite2D" parent="Run Display"]
+self_modulate = Color(0, 0, 0, 1)
+position = Vector2(50, -50)
+texture = ExtResource("5_aiw76")
+
+[node name="Top Right Border" type="Sprite2D" parent="Run Display/Top Right"]
+self_modulate = Color(0.0745098, 0.631373, 0.054902, 1)
+texture = ExtResource("6_ophqm")
+
+[node name="Bottom Left" type="Sprite2D" parent="Run Display"]
+self_modulate = Color(0, 0, 0, 1)
+position = Vector2(-50, 50)
+texture = ExtResource("5_aiw76")
+
+[node name="Bottom Left Border" type="Sprite2D" parent="Run Display/Bottom Left"]
+self_modulate = Color(0.0745098, 0.631373, 0.054902, 1)
+texture = ExtResource("6_ophqm")
+
+[node name="Bottom Right" type="Sprite2D" parent="Run Display"]
+self_modulate = Color(0, 0, 0, 1)
+position = Vector2(50, 50)
+texture = ExtResource("5_aiw76")
+
+[node name="Bottom Right Border" type="Sprite2D" parent="Run Display/Bottom Right"]
+self_modulate = Color(0.0745098, 0.631373, 0.054902, 1)
+texture = ExtResource("6_ophqm")
+
+[node name="Center Background" type="Sprite2D" parent="Run Display"]
+self_modulate = Color(0.152941, 0.152941, 0.152941, 1)
+texture = ExtResource("7_ateyp")
+
+[node name="Center Border" type="Sprite2D" parent="Run Display/Center Background"]
+self_modulate = Color(0.0745098, 0.631373, 0.054902, 1)
+texture = ExtResource("8_bm5fv")

@@ -1,3 +1,187 @@
-[gd_scene format=3 uid="uid://cjlmlfvidhqhk"]
+[gd_scene load_steps=12 format=3 uid="uid://cjlmlfvidhqhk"]
 
-[node name="Analyzer" type="Node2D"]
+[ext_resource type="Script" uid="uid://qoo5lw083dwu" path="res://buildings/Building.gd" id="1_v2grv"]
+[ext_resource type="Script" uid="uid://bnlamwidsat08" path="res://buildings/ResourceStore.gd" id="2_oy7wj"]
+[ext_resource type="Script" uid="uid://otu8u1t3op7c" path="res://buildings/ProgressBarHandler.gd" id="3_3j3q0"]
+[ext_resource type="Script" uid="uid://clrm6xioovdlf" path="res://buildings/analyzer/Event Watcher.gd" id="3_jhjeo"]
+[ext_resource type="Texture2D" uid="uid://cd3eo848m2n10" path="res://buildings/analyzer/Square Background.svg" id="3_ykmg8"]
+[ext_resource type="Texture2D" uid="uid://dfh0ramx5f8lm" path="res://buildings/analyzer/Square Border.svg" id="4_a3ph8"]
+[ext_resource type="Texture2D" uid="uid://cboo4h76vvqby" path="res://buildings/analyzer/Center Background.svg" id="4_ehsfq"]
+[ext_resource type="Texture2D" uid="uid://b4x55xrt11ske" path="res://buildings/analyzer/Center Border.svg" id="5_njw3w"]
+[ext_resource type="Texture2D" uid="uid://5imedq6y4tjh" path="res://buildings/analyzer/Square Progress.svg" id="7_ykmg8"]
+
+[sub_resource type="Animation" id="Animation_a3ph8"]
+resource_name = "Run Cycle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Run Display/Top Progress:radial_initial_angle")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3125),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [225.0, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Run Display/Top Progress:radial_initial_angle")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/keys = {
+"times": PackedFloat32Array(0.3125, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [360.0, 225.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Run Display/Bottom Progress:radial_initial_angle")
+tracks/2/interp = 1
+tracks/2/loop_wrap = false
+tracks/2/keys = {
+"times": PackedFloat32Array(0.5, 0.5625),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [315.0, 360.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../Run Display/Bottom Progress:radial_initial_angle")
+tracks/3/interp = 1
+tracks/3/loop_wrap = false
+tracks/3/keys = {
+"times": PackedFloat32Array(0.5625, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 315.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wa23u"]
+_data = {
+&"Run Cycle": SubResource("Animation_a3ph8")
+}
+
+[node name="Analyzer" type="Node2D" node_paths=PackedStringArray("buildDisplay", "buildProgressBar", "runDisplay")]
+script = ExtResource("1_v2grv")
+id = 4
+buildDisplay = NodePath("Build Display")
+buildProgressBar = NodePath("Build Display/Center Node")
+runDisplay = NodePath("Run Display")
+
+[node name="Event Watcher" type="Node2D" parent="." node_paths=PackedStringArray("building", "researchStore", "animator")]
+script = ExtResource("3_jhjeo")
+building = NodePath("..")
+researchStore = NodePath("../Research Store")
+animator = NodePath("../Run Display/AnimationPlayer")
+
+[node name="Research Store" type="Node2D" parent="."]
+script = ExtResource("2_oy7wj")
+isOutput = true
+limits = Dictionary[int, int]({
+4: 100,
+5: 100,
+6: 100,
+7: 100,
+8: 100
+})
+
+[node name="Build Display" type="Node2D" parent="."]
+
+[node name="Top Square" type="Sprite2D" parent="Build Display"]
+self_modulate = Color(0.152941, 0.152941, 0.152941, 1)
+texture = ExtResource("3_ykmg8")
+offset = Vector2(0, -50)
+
+[node name="Bottom Square" type="Sprite2D" parent="Build Display"]
+self_modulate = Color(0.152941, 0.152941, 0.152941, 1)
+texture = ExtResource("3_ykmg8")
+offset = Vector2(0, 50)
+
+[node name="Center Node" type="TextureProgressBar" parent="Build Display"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -200.0
+offset_right = 200.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+max_value = 1.0
+step = 0.0
+fill_mode = 5
+radial_initial_angle = 180.0
+texture_under = ExtResource("4_ehsfq")
+texture_progress = ExtResource("5_njw3w")
+tint_under = Color(0.152941, 0.152941, 0.152941, 1)
+tint_progress = Color(0.0745098, 0.631373, 0.054902, 1)
+script = ExtResource("3_3j3q0")
+fillBarEnd = 1.0
+
+[node name="Run Display" type="Node2D" parent="."]
+visible = false
+
+[node name="Top Square" type="Sprite2D" parent="Run Display"]
+self_modulate = Color(0.152941, 0.152941, 0.152941, 1)
+position = Vector2(0, 50)
+texture = ExtResource("3_ykmg8")
+
+[node name="Top Square Border" type="Sprite2D" parent="Run Display/Top Square"]
+self_modulate = Color(0.0745098, 0.631373, 0.054902, 1)
+texture = ExtResource("4_a3ph8")
+
+[node name="Bottom Square" type="Sprite2D" parent="Run Display"]
+self_modulate = Color(0.152941, 0.152941, 0.152941, 1)
+position = Vector2(0, -50)
+texture = ExtResource("3_ykmg8")
+
+[node name="Bottom Square Border" type="Sprite2D" parent="Run Display/Bottom Square"]
+self_modulate = Color(0.0745098, 0.631373, 0.054902, 1)
+texture = ExtResource("4_a3ph8")
+
+[node name="Top Progress" type="TextureProgressBar" parent="Run Display"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+value = 100.0
+fill_mode = 5
+radial_initial_angle = 225.0
+radial_fill_degrees = 90.0
+texture_progress = ExtResource("7_ykmg8")
+texture_progress_offset = Vector2(0, -50)
+tint_progress = Color(0.94902, 0.94902, 0.94902, 1)
+
+[node name="Bottom Progress" type="TextureProgressBar" parent="Run Display"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+value = 100.0
+fill_mode = 4
+radial_initial_angle = 315.0
+radial_fill_degrees = 90.0
+texture_progress = ExtResource("7_ykmg8")
+texture_progress_offset = Vector2(0, 50)
+tint_progress = Color(0.94902, 0.94902, 0.94902, 1)
+
+[node name="Center Circle" type="Sprite2D" parent="Run Display"]
+self_modulate = Color(0.152941, 0.152941, 0.152941, 1)
+texture = ExtResource("4_ehsfq")
+
+[node name="Center Circle Border" type="Sprite2D" parent="Run Display/Center Circle"]
+self_modulate = Color(0.0745098, 0.631373, 0.054902, 1)
+texture = ExtResource("5_njw3w")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Run Display"]
+root_node = NodePath("../../Event Watcher")
+libraries = {
+&"": SubResource("AnimationLibrary_wa23u")
+}

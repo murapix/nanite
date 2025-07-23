@@ -1,8 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://d2e7f3qcwrise"]
+[gd_scene load_steps=13 format=3 uid="uid://d2e7f3qcwrise"]
 
 [ext_resource type="PackedScene" uid="uid://bhikdodqyy0rk" path="res://buildings/Building Placer.tscn" id="1_170dk"]
 [ext_resource type="PackedScene" uid="uid://bi2wvimqcyfxj" path="res://buildings/core/Core.tscn" id="1_gxo8o"]
-[ext_resource type="Script" uid="uid://mt1hxomu3k4o" path="res://camera_2d.gd" id="2_24d08"]
+[ext_resource type="Script" uid="uid://mt1hxomu3k4o" path="res://Main Camera.gd" id="2_24d08"]
+[ext_resource type="PackedScene" uid="uid://d4eyg2gjiti5b" path="res://buildings/router/Router.tscn" id="3_3ipfy"]
+[ext_resource type="PackedScene" uid="uid://wn5jr0o28hn3" path="res://buildings/extractor/Extractor.tscn" id="3_cwqeq"]
+[ext_resource type="PackedScene" uid="uid://bw71hg3s4otdg" path="res://buildings/foundry/Foundry.tscn" id="4_g0d6c"]
+[ext_resource type="PackedScene" uid="uid://cjlmlfvidhqhk" path="res://buildings/analyzer/Analyzer.tscn" id="5_f5i44"]
+[ext_resource type="PackedScene" uid="uid://dcljwpx6pxxga" path="res://buildings/researcher/Researcher.tscn" id="6_n0g3p"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cwqeq"]
 bg_color = Color(0.152941, 0.152941, 0.152941, 1)
@@ -70,29 +75,63 @@ layout_mode = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/Build Menu/ScrollContainer"]
 layout_mode = 2
 
-[node name="Extractor" parent="VBoxContainer/HBoxContainer/Build Menu/ScrollContainer/VBoxContainer" instance=ExtResource("1_170dk")]
+[node name="Extractor" parent="VBoxContainer/HBoxContainer/Build Menu/ScrollContainer/VBoxContainer" node_paths=PackedStringArray("building") instance=ExtResource("1_170dk")]
 layout_mode = 2
-buildingID = 1
+building = NodePath("Extractor")
+buildingName = &"Extractor"
+buildingDescription = &"Extract scrap from ruined nodes"
 
-[node name="Router" parent="VBoxContainer/HBoxContainer/Build Menu/ScrollContainer/VBoxContainer" instance=ExtResource("1_170dk")]
-layout_mode = 2
-buildingID = 1
+[node name="Extractor" parent="VBoxContainer/HBoxContainer/Build Menu/ScrollContainer/VBoxContainer/Extractor" instance=ExtResource("3_cwqeq")]
+position = Vector2(54, 65)
+scale = Vector2(0.25, 0.25)
+functional = false
 
-[node name="Foundry" parent="VBoxContainer/HBoxContainer/Build Menu/ScrollContainer/VBoxContainer" instance=ExtResource("1_170dk")]
+[node name="Router" parent="VBoxContainer/HBoxContainer/Build Menu/ScrollContainer/VBoxContainer" node_paths=PackedStringArray("building") instance=ExtResource("1_170dk")]
 layout_mode = 2
-buildingID = 1
+building = NodePath("Router")
+buildingName = &"Router"
+buildingDescription = &"Transfer resources to further-away nodes"
+
+[node name="Router" parent="VBoxContainer/HBoxContainer/Build Menu/ScrollContainer/VBoxContainer/Router" instance=ExtResource("3_3ipfy")]
+position = Vector2(54, 65)
+scale = Vector2(0.25, 0.25)
+functional = false
+
+[node name="Foundry" parent="VBoxContainer/HBoxContainer/Build Menu/ScrollContainer/VBoxContainer" node_paths=PackedStringArray("building") instance=ExtResource("1_170dk")]
+layout_mode = 2
+building = NodePath("Foundry")
+buildingName = &"Foundry"
+buildingDescription = &"Form clusters of nanites into structural materials"
+
+[node name="Foundry" parent="VBoxContainer/HBoxContainer/Build Menu/ScrollContainer/VBoxContainer/Foundry" instance=ExtResource("4_g0d6c")]
+position = Vector2(54, 65)
+scale = Vector2(0.25, 0.25)
+functional = false
 
 [node name="Analyzer" parent="VBoxContainer/HBoxContainer/Build Menu/ScrollContainer/VBoxContainer" instance=ExtResource("1_170dk")]
 layout_mode = 2
-buildingID = 1
+buildingName = &"Analyzer"
+buildingDescription = &"Computational attachement module, produces data based on surrounding activity"
+
+[node name="Analyzer" parent="VBoxContainer/HBoxContainer/Build Menu/ScrollContainer/VBoxContainer/Analyzer" instance=ExtResource("5_f5i44")]
+position = Vector2(54, 65)
+scale = Vector2(0.25, 0.25)
+functional = false
 
 [node name="Researcher" parent="VBoxContainer/HBoxContainer/Build Menu/ScrollContainer/VBoxContainer" instance=ExtResource("1_170dk")]
 layout_mode = 2
-buildingID = 1
+buildingName = &"Researcher"
+buildingDescription = &"Process data to improve and iterate upon nanite structures and design"
+
+[node name="Researcher" parent="VBoxContainer/HBoxContainer/Build Menu/ScrollContainer/VBoxContainer/Researcher" instance=ExtResource("6_n0g3p")]
+position = Vector2(54, 65)
+scale = Vector2(0.25, 0.25)
+functional = false
 
 [node name="Bore" parent="VBoxContainer/HBoxContainer/Build Menu/ScrollContainer/VBoxContainer" instance=ExtResource("1_170dk")]
 layout_mode = 2
-buildingID = 1
+buildingName = &"Nanite Bore"
+buildingDescription = &"Send a stream of nanites to break down nearby hardened structures. Must be placed near foreign machinery"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -101,13 +140,19 @@ theme_override_constants/separation = 0
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 3
+stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer"]
 handle_input_locally = false
+size = Vector2i(548, 373)
 render_target_update_mode = 4
 
 [node name="Core" parent="VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport" instance=ExtResource("1_gxo8o")]
-position = Vector2(590, 325)
+
+[node name="Extractor" parent="VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport" instance=ExtResource("3_cwqeq")]
+position = Vector2(-70, -10)
+scale = Vector2(0.25, 0.25)
 
 [node name="Camera2D" type="Camera2D" parent="VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport"]
 position = Vector2(590, 325)
@@ -116,10 +161,6 @@ script = ExtResource("2_24d08")
 metadata/minZoom = 0.1
 metadata/maxZoom = 1.0
 metadata/zoomSpeed = 0.065
-
-[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
 
 [node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 225)

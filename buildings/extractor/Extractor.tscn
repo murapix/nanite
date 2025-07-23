@@ -1,20 +1,61 @@
-[gd_scene load_steps=3 format=3 uid="uid://wn5jr0o28hn3"]
+[gd_scene load_steps=7 format=3 uid="uid://wn5jr0o28hn3"]
 
 [ext_resource type="Script" uid="uid://qoo5lw083dwu" path="res://buildings/Building.gd" id="1_17no1"]
 [ext_resource type="Script" uid="uid://bnlamwidsat08" path="res://buildings/ResourceStore.gd" id="2_a3imr"]
+[ext_resource type="Texture2D" uid="uid://bf28qswskqslo" path="res://buildings/extractor/background.svg" id="3_diyoe"]
+[ext_resource type="Texture2D" uid="uid://cxn3pqnketnuy" path="res://buildings/extractor/fill.svg" id="4_bqxjf"]
+[ext_resource type="Texture2D" uid="uid://blv68cdru5xix" path="res://buildings/extractor/border.svg" id="5_6xmq7"]
+[ext_resource type="Script" uid="uid://otu8u1t3op7c" path="res://buildings/ProgressBarHandler.gd" id="6_bqxjf"]
 
-[node name="Extractor" type="Node2D"]
+[node name="Extractor" type="Node2D" node_paths=PackedStringArray("buildDisplay", "buildProgressBar", "runDisplay")]
 script = ExtResource("1_17no1")
 id = 1
+buildDisplay = NodePath("BuildProgressDisplay")
+buildProgressBar = NodePath("BuildProgressDisplay")
+runDisplay = NodePath("ResourceStore/FillDisplay")
 
-[node name="ResourceStore" type="Node" parent="." node_paths=PackedStringArray("fillImage")]
+[node name="BuildProgressDisplay" type="TextureProgressBar" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -200.0
+offset_right = 200.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+max_value = 1.0
+step = 0.0
+fill_mode = 5
+radial_initial_angle = 180.0
+texture_under = ExtResource("3_diyoe")
+texture_progress = ExtResource("5_6xmq7")
+tint_under = Color(0.152941, 0.152941, 0.152941, 1)
+tint_progress = Color(0.0745098, 0.631373, 0.054902, 1)
+script = ExtResource("6_bqxjf")
+fillBarEnd = 1.0
+
+[node name="ResourceStore" type="Node2D" parent="." node_paths=PackedStringArray("fillBar")]
 script = ExtResource("2_a3imr")
 isOutput = true
-fillImage = NodePath("Fill")
-metadata/_custom_type_script = "uid://bnlamwidsat08"
+fillBar = NodePath("FillDisplay")
 
-[node name="Background" type="Sprite2D" parent="ResourceStore"]
-
-[node name="Fill" type="Sprite2D" parent="ResourceStore"]
-
-[node name="Border" type="Sprite2D" parent="ResourceStore"]
+[node name="FillDisplay" type="TextureProgressBar" parent="ResourceStore"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(200, 200)
+max_value = 1.0
+step = 0.0
+fill_mode = 3
+texture_under = ExtResource("3_diyoe")
+texture_over = ExtResource("5_6xmq7")
+texture_progress = ExtResource("4_bqxjf")
+tint_under = Color(0.152941, 0.152941, 0.152941, 1)
+tint_over = Color(0.0745098, 0.631373, 0.054902, 1)
+tint_progress = Color(0.0627451, 0.341176, 0.0509804, 1)
+script = ExtResource("6_bqxjf")
+fillBarEnd = 1.0

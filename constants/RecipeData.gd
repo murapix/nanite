@@ -5,12 +5,12 @@ class BaseRecipe:
 	var outputs: Dictionary[ResourceData.resourceID, int];
 	var duration: int;
 	
-	func _init(inputs: Dictionary[ResourceData.resourceID, int],
-			   outputs: Dictionary[ResourceData.resourceID, int],
-			   duration: int):
-		self.inputs = inputs;
-		self.outputs = outputs;
-		self.duration = duration;
+	func _init(p_inputs: Dictionary[ResourceData.resourceID, int],
+			   p_outputs: Dictionary[ResourceData.resourceID, int],
+			   p_duration: int):
+		self.inputs = p_inputs;
+		self.outputs = p_outputs;
+		self.duration = p_duration;
 	
 	func isAvailable(recipeId: RecipeData.recipeID, building: Building) -> bool:
 		match BuildingData.buildings[building.id].recipes[recipeId]:
